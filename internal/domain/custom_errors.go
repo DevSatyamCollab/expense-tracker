@@ -8,4 +8,5 @@ var (
 	ErrInvalidAmount    = errors.New("amount must be greater than zero")
 	ErrEmptyDescription = errors.New("empty description")
 	ErrEmptyCategory    = errors.New("empty category")
+	ErrExpenseNotFound  = errors.New("expense not found")
 )
