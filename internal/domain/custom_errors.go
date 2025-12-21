@@ -9,4 +9,5 @@ var (
 	ErrEmptyDescription = errors.New("empty description")
 	ErrEmptyCategory    = errors.New("empty category")
 	ErrExpenseNotFound  = errors.New("expense not found")
+	ErrEmptyStoragePath = errors.New("storage file path is empty")
 )

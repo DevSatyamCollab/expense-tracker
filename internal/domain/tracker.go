@@ -85,3 +85,16 @@ func (t *ExpenseTracker) GetBudgetofTheMonth(monthID int) float64 {
 
 	return 0
 }
+
+// update NextID
+func (t *ExpenseTracker) UpdateNextID() int {
+	maxId := 0
+
+	for _, expense := range t.Expenses {
+		if expense.Id > maxId {
+			maxId = expense.Id
+		}
+	}
+
+	return maxId
+}
