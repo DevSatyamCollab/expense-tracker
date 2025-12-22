@@ -149,7 +149,6 @@ func (dc *DeleteCommand) Execute() error {
 type SummaryCommand struct {
 	Command
 	monthID  int
-	all      bool
 	category bool
 }
 
