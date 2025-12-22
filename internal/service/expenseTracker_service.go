@@ -66,6 +66,11 @@ func (s *ExpenseService) GetSummaryByCategory(category string) float64 {
 	return s.tracker.Summary(s.GetExpensesByCategory(category))
 }
 
+// Get all expenses
+func (s *ExpenseService) GetAllExpenes() []*domain.Expense {
+	return s.tracker.Expenses
+}
+
 // Get Expenses of the month
 func (s *ExpenseService) GetExpensesofMonth(monthID int) []*domain.Expense {
 	filter := make([]*domain.Expense, 0)
