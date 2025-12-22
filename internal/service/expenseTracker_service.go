@@ -2,6 +2,7 @@ package service
 
 import (
 	"expense-tracker/internal/domain"
+	"expense-tracker/internal/storage"
 	"fmt"
 	"slices"
 	"strings"
@@ -12,17 +13,21 @@ import (
 // -------------------------
 type ExpenseService struct {
 	tracker *domain.ExpenseTracker
+	storage *storage.JsonStorage
 }
 
-func NewExpenseService(t *domain.ExpenseTracker) *ExpenseService {
-	return &ExpenseService{tracker: t}
+func NewExpenseService(t *domain.ExpenseTracker, s *storage.JsonStorage) *ExpenseService {
+	return &ExpenseService{tracker: t, storage: s}
 }
 
 // add expense and save
 func (s *ExpenseService) AddExpense(amount float64, desc, cate string) error {
 	s.tracker.Add(amount, desc, cate)
 
-	// save
+	if err := s.storage.Save(s.tracker); err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -35,7 +40,10 @@ func (s *ExpenseService) UpdateExpense(id int, amount float64, desc, cate string
 
 	s.tracker.Update(index, amount, desc, cate)
 
-	// save
+	if err := s.storage.Save(s.tracker); err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -47,7 +55,11 @@ func (s *ExpenseService) DeleteExpense(id int) error {
 	}
 
 	s.tracker.Delete(index)
-	// save
+
+	if err := s.storage.Save(s.tracker); err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -69,6 +81,22 @@ func (s *ExpenseService) GetSummaryByCategory(category string) float64 {
 // Get all expenses
 func (s *ExpenseService) GetAllExpenes() []*domain.Expense {
 	return s.tracker.Expenses
+}
+
+// Get all categories
+func (s *ExpenseService) GetAllCategories() []string {
+	expenseList := s.tracker.Expenses
+	seen := make(map[string]struct{})
+	categoriesList := make([]string, 0)
+
+	for _, expense := range expenseList {
+		if _, ok := seen[expense.Category]; !ok {
+			seen[expense.Category] = struct{}{}
+			categoriesList = append(categoriesList, expense.Category)
+		}
+	}
+
+	return categoriesList
 }
 
 // Get Expenses of the month
