@@ -63,12 +63,8 @@ func ValidateCategory(category string) error {
 	return nil
 }
 
-func ValidateExpense(id int, amount float64, desc, cate string) error {
+func ValidateExpense(amount float64, desc, cate string) error {
 	var err error
-
-	if err = ValidateID(id); err != nil {
-		return err
-	}
 
 	if err = ValidateAmount(amount); err != nil {
 		return err

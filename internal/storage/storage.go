@@ -27,12 +27,12 @@ const (
 // ------------------
 // storage
 // ------------------
-type Storage struct {
+type JsonStorage struct {
 	filename string
 }
 
 var (
-	instance *Storage
+	instance *JsonStorage
 	once     sync.Once
 )
 
@@ -66,7 +66,7 @@ func unsureStorage() (string, error) {
 }
 
 // GetStorage
-func GetStorage() (*Storage, error) {
+func GetStorage() (*JsonStorage, error) {
 	var storageErr error
 
 	once.Do(func() {
@@ -76,7 +76,7 @@ func GetStorage() (*Storage, error) {
 			storageErr = fmt.Errorf("failed to initialize storage: %w", err)
 			instance = nil
 		} else {
-			instance = &Storage{filename: file}
+			instance = &JsonStorage{filename: file}
 		}
 	})
 
@@ -84,7 +84,7 @@ func GetStorage() (*Storage, error) {
 }
 
 // save method
-func (s *Storage) Save(tracker *domain.ExpenseTracker) error {
+func (s *JsonStorage) Save(tracker *domain.ExpenseTracker) error {
 	if s.filename == "" {
 		return domain.ErrEmptyStoragePath
 	}
@@ -114,7 +114,7 @@ func (s *Storage) Save(tracker *domain.ExpenseTracker) error {
 }
 
 // load method
-func (s *Storage) Load(tracker *domain.ExpenseTracker) error {
+func (s *JsonStorage) Load(tracker *domain.ExpenseTracker) error {
 	if s.filename == "" {
 		return domain.ErrEmptyStoragePath
 	}
@@ -151,7 +151,7 @@ func (s *Storage) Load(tracker *domain.ExpenseTracker) error {
 }
 
 // lock the file
-func (s *Storage) lockFile() error {
+func (s *JsonStorage) lockFile() error {
 	if err := os.Chmod(s.filename, lock); err != nil {
 		return fmt.Errorf("failed to lock the file: %w", err)
 	}
@@ -160,7 +160,7 @@ func (s *Storage) lockFile() error {
 }
 
 // unlock the file
-func (s *Storage) unlockFile() error {
+func (s *JsonStorage) unlockFile() error {
 	if err := os.Chmod(s.filename, readwritePerm); err != nil {
 		return fmt.Errorf("failed to unlock the file: %w", err)
 	}

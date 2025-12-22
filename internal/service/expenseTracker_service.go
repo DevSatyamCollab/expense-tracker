@@ -19,8 +19,8 @@ func NewExpenseService(t *domain.ExpenseTracker) *ExpenseService {
 }
 
 // add expense and save
-func (s *ExpenseService) AddExpense(id int, amount float64, desc, cate string) error {
-	s.tracker.Add(id, amount, desc, cate)
+func (s *ExpenseService) AddExpense(amount float64, desc, cate string) error {
+	s.tracker.Add(amount, desc, cate)
 
 	// save
 	return nil

@@ -32,8 +32,8 @@ func GetExpenseTracker() *ExpenseTracker {
 }
 
 // add
-func (t *ExpenseTracker) Add(id int, amount float64, desc, cate string) {
-	t.Expenses = append(t.Expenses, newExpense(id, amount, desc, cate))
+func (t *ExpenseTracker) Add(amount float64, desc, cate string) {
+	t.Expenses = append(t.Expenses, newExpense(t.NextID, amount, desc, cate))
 }
 
 // delete
