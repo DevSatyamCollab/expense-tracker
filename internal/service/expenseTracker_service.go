@@ -22,7 +22,7 @@ func NewExpenseService(t *domain.ExpenseTracker, s *storage.JsonStorage) *Expens
 
 // add expense and save
 func (s *ExpenseService) AddExpense(amount float64, desc, cate string) error {
-	s.tracker.Add(amount, desc, cate)
+	s.tracker.Add(amount, desc, strings.ToLower(cate))
 
 	if err := s.storage.Save(s.tracker); err != nil {
 		return err

@@ -30,8 +30,8 @@ func (p *ConsolePresenter) Success(msg string) {
 }
 
 func (p *ConsolePresenter) ShowTotalSummary() {
-	price := p.service.GetTotalSummary()
-	fmt.Println(strconv.FormatFloat(price, 'f', 2, 64))
+	price := strconv.FormatFloat(p.service.GetTotalSummary(), 'f', 2, 64)
+	fmt.Println("Total expenses: ", price)
 }
 
 func (p *ConsolePresenter) ShowSummaryofMonth(monthID int) {
@@ -48,7 +48,9 @@ func (p *ConsolePresenter) ShowSummaryofCategory() {
 		return
 	}
 
-	fmt.Println("SUMMARY OF CATEGORY:----------------------------------------------------\n")
+	fmt.Println("SUMMARY OF CATEGORY:")
+	fmt.Println("--------------------------------------------------------------------")
+
 	tble := table.New(os.Stdout)
 	tble.SetHeaders("Category", "Price")
 
@@ -65,7 +67,8 @@ func (p *ConsolePresenter) ShowList(expenseList []*domain.Expense) {
 		return
 	}
 
-	fmt.Printf("Expense List:--------------------------------------------------------------\n")
+	fmt.Println("Expense List:")
+	fmt.Println("--------------------------------------------------------------------")
 
 	tble := table.New(os.Stdout)
 	tble.SetHeaders("ID", "Date", "Description", "Amount", "Category")
