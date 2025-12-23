@@ -33,7 +33,7 @@ Examples:
   expense-tracker -upd 0 (--desc "Breakfast" / --amount 25 / --categ "Food"
   expense-tracker -del 0
   expense-tracker -list
-  expense-tracker -list --cat
+  expense-tracker -list --categ "Food"
   expense-tracker -list --month 8
   expense-tracker -sum 
   expense-tracker -sum --month 8
