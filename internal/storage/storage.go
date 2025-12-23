@@ -19,7 +19,7 @@ type IStorage interface {
 
 const (
 	dirPath       = ".expense-tracker/data/"
-	fname         = "data.json"
+	fname         = "expenses.json"
 	readwritePerm = 0600
 	lock          = 0000
 )
