@@ -1,6 +1,9 @@
 package domain
 
-import "sync"
+import (
+	"expense-tracker/internal/commands"
+	"sync"
+)
 
 // -----------------------
 // Expense Tracker
@@ -45,7 +48,7 @@ func (t *ExpenseTracker) Delete(index int) {
 func (t *ExpenseTracker) Update(index int, amount float64, desc, cate string) {
 	currentExpense := t.Expenses[index]
 
-	if amount != 0 {
+	if amount != commands.NoIDSelected {
 		currentExpense.Amount = amount
 	}
 
