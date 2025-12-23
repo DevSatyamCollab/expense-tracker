@@ -62,7 +62,7 @@ func (ac *AddCommand) Execute() error {
 		return err
 	}
 
-	ac.presetner.Success(fmt.Sprintf("Expense added successfully"))
+	ac.presetner.Success("Expense added successfully")
 
 	return nil
 }
@@ -93,8 +93,22 @@ func (uc *UpdateCommand) Validate() error {
 		return err
 	}
 
-	if err := domain.ValidateExpense(uc.amount, uc.description, uc.category); err != nil {
-		return err
+	if uc.amount != 0 {
+		if err := domain.ValidateAmount(uc.amount); err != nil {
+			return err
+		}
+	}
+
+	if uc.description != "" {
+		if err := domain.ValidateDescription(uc.description); err != nil {
+			return err
+		}
+	}
+
+	if uc.category != "" {
+		if err := domain.ValidateCategory(uc.category); err != nil {
+			return err
+		}
 	}
 
 	return nil
@@ -161,8 +175,10 @@ func NewSummaryCommand(s *service.ExpenseService, p *presenter.ConsolePresenter,
 }
 
 func (sc *SummaryCommand) Validate() error {
-	if err := domain.ValidateMonthID(sc.monthID); err != nil {
-		return err
+	if sc.monthID != 0 {
+		if err := domain.ValidateMonthID(sc.monthID); err != nil {
+			return err
+		}
 	}
 
 	return nil
