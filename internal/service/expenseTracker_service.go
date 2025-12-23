@@ -75,7 +75,7 @@ func (s *ExpenseService) GetSummaryOfMonth(monthID int) float64 {
 
 // Get summary of expenses by category
 func (s *ExpenseService) GetSummaryByCategory(category string) float64 {
-	return s.tracker.Summary(s.GetExpensesByCategory(category))
+	return s.tracker.Summary(s.GetExpensesByCategory(strings.ToLower(category)))
 }
 
 // Get all expenses
@@ -115,6 +115,7 @@ func (s *ExpenseService) GetExpensesofMonth(monthID int) []*domain.Expense {
 // Get Expenses by category
 func (s *ExpenseService) GetExpensesByCategory(category string) []*domain.Expense {
 	filter := make([]*domain.Expense, 0)
+	category = strings.ToLower(category)
 
 	for _, expense := range s.tracker.Expenses {
 		if strings.EqualFold(category, expense.Category) {

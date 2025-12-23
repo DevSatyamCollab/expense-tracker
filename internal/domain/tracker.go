@@ -100,5 +100,5 @@ func (t *ExpenseTracker) UpdateNextID() int {
 		}
 	}
 
-	return maxId
+	return maxId + 1
 }
