@@ -1,0 +1,25 @@
+expense-tracker/
+|-- main.go
+|-- PROJECT_STRUCTURE.txt
+|-- ReadMe.md
+├── go.mod
+├── go.sum
+└── internal/
+    ├── app/
+    │   └── app.go
+    ├── commands/
+    │   ├── commands.go
+    │   ├── flags.go
+    ├── core/
+    │   ├── custom_errors.go
+    │   ├── expense.go
+    │   └── tracker.go
+    ├── presenter/
+    │   └── console_presenter.go
+    ├── service/
+    │   └── expenseTracker_service.go
+    └── storage/
+        └── storage.go
+|-- .expense-tracker/
+    |- data/
+        |- expenses.json
