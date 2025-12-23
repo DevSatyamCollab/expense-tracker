@@ -147,3 +147,18 @@ func (s *ExpenseService) findIndex(id int) (int, error) {
 	}
 	return -1, domain.ErrExpenseNotFound
 }
+
+// Check budget
+func (s *ExpenseService) CheckBudgetExceeded(monthID int) (bool, float64, float64) {
+	budget := s.tracker.GetBudgetofTheMonth(monthID)
+	if budget <= 0 {
+		return false, 0, 0
+	}
+
+	total := s.tracker.GetBudgetofTheMonth(monthID)
+	if total > budget {
+		return true, budget, total
+	}
+
+	return false, budget, total
+}

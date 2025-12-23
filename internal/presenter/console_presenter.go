@@ -29,6 +29,11 @@ func (p *ConsolePresenter) Success(msg string) {
 	fmt.Println(msg)
 }
 
+// show warning message
+func (p *ConsolePresenter) ShowWarning(msg string) {
+	fmt.Printf("⚠️  WARNING: %s\n", msg)
+}
+
 func (p *ConsolePresenter) ShowTotalSummary() {
 	price := strconv.FormatFloat(p.service.GetTotalSummary(), 'f', 2, 64)
 	fmt.Println("Total expenses: ", price)

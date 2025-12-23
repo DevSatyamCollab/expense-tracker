@@ -19,6 +19,7 @@ type CmdFlags struct {
 	Description string
 	Category    string
 	Amount      float64
+	Budget      float64
 }
 
 func ParseFlags(args []string) (*CmdFlags, error) {
@@ -38,6 +39,7 @@ Examples:
   expense-tracker -sum 
   expense-tracker -sum --month 8
   expense-tracker -sum --cat
+  expense-tracker -budget 1000 --month 12
 
 options:`
 		fmt.Fprintln(os.Stderr, usage)
@@ -55,6 +57,7 @@ options:`
 	fs.IntVar(&flags.MonthID, "month", NoIDSelected, "month number")
 
 	fs.Float64Var(&flags.Amount, "amount", NoIDSelected, "amount of expense")
+	fs.Float64Var(&flags.Budget, "budget", NoIDSelected, "budget of the month")
 
 	fs.StringVar(&flags.Description, "desc", "", "description of expense")
 	fs.StringVar(&flags.Category, "categ", "", "category of expense")
@@ -94,6 +97,11 @@ func (f *CmdFlags) DetermineCommand() (string, error) {
 	if f.Delete != NoIDSelected {
 		commandCount++
 		command = "delete"
+	}
+
+	if f.Budget != NoIDSelected {
+		commandCount++
+		command = "budget"
 	}
 
 	if commandCount == 0 {

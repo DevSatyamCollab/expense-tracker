@@ -5,6 +5,7 @@ import (
 	"expense-tracker/internal/presenter"
 	"expense-tracker/internal/service"
 	"fmt"
+	"time"
 )
 
 // ------------------
@@ -60,6 +61,13 @@ func (ac *AddCommand) Validate() error {
 func (ac *AddCommand) Execute() error {
 	if err := ac.service.AddExpense(ac.amount, ac.description, ac.category); err != nil {
 		return err
+	}
+
+	currentMonth := int(time.Now().Month())
+	exceeded, budget, total := ac.service.CheckBudgetExceeded(currentMonth)
+	if exceeded {
+		ac.presetner.ShowWarning(fmt.Sprintf("You have exceeded your budget for this month! (Budget: %.2f, Total: %.2f)",
+			budget, total))
 	}
 
 	ac.presetner.Success("Expense added successfully")
@@ -240,5 +248,43 @@ func (lc *ListCommand) Execute() error {
 		lc.presetner.ShowList(lc.service.GetAllExpenes())
 	}
 
+	return nil
+}
+
+// -------------------
+// Budget Command
+// -------------------
+type BudgetCommand struct {
+	Command
+	Budget  float64
+	monthID int
+}
+
+func NewBudgetCommand(s *service.ExpenseService, p *presenter.ConsolePresenter, budget float64, monthID int) *BudgetCommand {
+	return &BudgetCommand{
+		Command: *newComamnd(s, p),
+		monthID: monthID,
+		Budget:  budget,
+	}
+}
+
+func (bc *BudgetCommand) Validate() error {
+	if bc.monthID != NoIDSelected {
+		if err := domain.ValidateMonthID(bc.monthID); err != nil {
+			return err
+		}
+	}
+
+	if bc.Budget != NoIDSelected {
+		if err := domain.ValidateAmount(bc.Budget); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (bc *BudgetCommand) Execute() error {
+	bc.service.SetBudget(bc.monthID, bc.Budget)
 	return nil
 }
