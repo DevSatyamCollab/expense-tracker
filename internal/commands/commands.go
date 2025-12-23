@@ -93,7 +93,7 @@ func (uc *UpdateCommand) Validate() error {
 		return err
 	}
 
-	if uc.amount != 0 {
+	if uc.amount != NoIDSelected {
 		if err := domain.ValidateAmount(uc.amount); err != nil {
 			return err
 		}
@@ -175,7 +175,7 @@ func NewSummaryCommand(s *service.ExpenseService, p *presenter.ConsolePresenter,
 }
 
 func (sc *SummaryCommand) Validate() error {
-	if sc.monthID != 0 {
+	if sc.monthID != NoIDSelected {
 		if err := domain.ValidateMonthID(sc.monthID); err != nil {
 			return err
 		}
@@ -186,7 +186,7 @@ func (sc *SummaryCommand) Validate() error {
 
 func (sc *SummaryCommand) Execute() error {
 	switch {
-	case sc.monthID != 0:
+	case sc.monthID != NoIDSelected:
 		sc.presetner.ShowSummaryofMonth(sc.monthID)
 	case sc.category:
 		sc.presetner.ShowSummaryofCategory()
@@ -215,7 +215,7 @@ func NewListCommand(s *service.ExpenseService, p *presenter.ConsolePresenter, mo
 }
 
 func (lc *ListCommand) Validate() error {
-	if lc.monthID != 0 {
+	if lc.monthID != NoIDSelected {
 		if err := domain.ValidateMonthID(lc.monthID); err != nil {
 			return err
 		}
@@ -232,7 +232,7 @@ func (lc *ListCommand) Validate() error {
 
 func (lc *ListCommand) Execute() error {
 	switch {
-	case lc.monthID != 0:
+	case lc.monthID != NoIDSelected:
 		lc.presetner.ShowList(lc.service.GetExpensesofMonth(lc.monthID))
 	case lc.category != "":
 		lc.presetner.ShowList(lc.service.GetExpensesByCategory(lc.category))

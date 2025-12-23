@@ -137,9 +137,7 @@ func (s *ExpenseService) GetBudget(monthID int) float64 {
 
 // find expenseIndex
 func (s *ExpenseService) findIndex(id int) (int, error) {
-	expenseList := make([]*domain.Expense, 0)
-
-	index, found := slices.BinarySearchFunc(expenseList, id, func(expense *domain.Expense, targetID int) int {
+	index, found := slices.BinarySearchFunc(s.tracker.Expenses, id, func(expense *domain.Expense, targetID int) int {
 		return expense.Id - targetID
 	})
 

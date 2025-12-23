@@ -38,7 +38,7 @@ func (t *ExpenseTracker) Add(amount float64, desc, cate string) {
 
 // delete
 func (t *ExpenseTracker) Delete(index int) {
-	t.Expenses = append(t.Expenses[index:], t.Expenses[:index+1]...)
+	t.Expenses = append(t.Expenses[:index], t.Expenses[index+1:]...)
 }
 
 // update
